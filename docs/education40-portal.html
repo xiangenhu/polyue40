@@ -1,0 +1,1673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Education 4.0 | PolyU Transformation Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #1a1a1f;
+            --paper: #f8f6f1;
+            --accent: #c45a3b;
+            --accent-light: #e8d4cc;
+            --teal: #2a6b6b;
+            --teal-light: #d4e5e5;
+            --slate: #5a5a6e;
+            --mist: #e8e6e1;
+            --gold: #b8860b;
+            --serif: 'Cormorant Garamond', Georgia, serif;
+            --sans: 'DM Sans', -apple-system, sans-serif;
+            --mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--sans);
+            background: var(--paper);
+            color: var(--ink);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Grain Overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(248, 246, 241, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--mist);
+            z-index: 100;
+            padding: 0 2rem;
+        }
+
+        .nav-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 64px;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--ink);
+        }
+
+        .nav-brand-mark {
+            width: 40px;
+            height: 40px;
+            background: var(--accent);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .nav-brand-text {
+            font-family: var(--serif);
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .nav-brand-sub {
+            font-size: 0.7rem;
+            color: var(--slate);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--slate);
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: color 0.2s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            padding-top: 64px;
+        }
+
+        .hero-content {
+            padding: 6rem 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hero-eyebrow {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            color: var(--accent);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeSlideUp 0.8s ease forwards 0.2s;
+        }
+
+        .hero-title {
+            font-family: var(--serif);
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 400;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeSlideUp 0.8s ease forwards 0.4s;
+        }
+
+        .hero-title em {
+            font-style: italic;
+            color: var(--accent);
+        }
+
+        .hero-subtitle {
+            font-size: 1.125rem;
+            color: var(--slate);
+            max-width: 480px;
+            margin-bottom: 2.5rem;
+            opacity: 0;
+            animation: fadeSlideUp 0.8s ease forwards 0.6s;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            opacity: 0;
+            animation: fadeSlideUp 0.8s ease forwards 0.8s;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.875rem 1.75rem;
+            font-family: var(--sans);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--ink);
+            color: var(--paper);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(196, 90, 59, 0.25);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--ink);
+            border: 1px solid var(--ink);
+        }
+
+        .btn-secondary:hover {
+            background: var(--ink);
+            color: var(--paper);
+        }
+
+        .hero-visual {
+            background: linear-gradient(135deg, var(--teal) 0%, var(--ink) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-visual::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(196, 90, 59, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(42, 107, 107, 0.4) 0%, transparent 50%);
+        }
+
+        .hero-graphic {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .edu-stages {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding: 2rem;
+        }
+
+        .stage {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+            color: white;
+            transform: translateX(100px);
+            opacity: 0;
+            animation: slideIn 0.6s ease forwards;
+        }
+
+        .stage:nth-child(1) { animation-delay: 0.3s; }
+        .stage:nth-child(2) { animation-delay: 0.45s; }
+        .stage:nth-child(3) { animation-delay: 0.6s; }
+        .stage:nth-child(4) { animation-delay: 0.75s; }
+        .stage:nth-child(5) { animation-delay: 0.9s; }
+
+        .stage-number {
+            font-family: var(--serif);
+            font-size: 2rem;
+            font-weight: 700;
+            opacity: 0.6;
+            min-width: 60px;
+        }
+
+        .stage-active .stage-number {
+            color: var(--accent);
+            opacity: 1;
+        }
+
+        .stage-info h4 {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .stage-info p {
+            font-size: 0.75rem;
+            opacity: 0.7;
+        }
+
+        .stage-active {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(196, 90, 59, 0.5);
+        }
+
+        /* Section Styles */
+        section {
+            padding: 6rem 2rem;
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-eyebrow {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            color: var(--teal);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-family: var(--serif);
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 400;
+            margin-bottom: 1rem;
+        }
+
+        .section-desc {
+            color: var(--slate);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Pillars Section */
+        .pillars-section {
+            background: var(--ink);
+            color: var(--paper);
+        }
+
+        .pillars-section .section-eyebrow {
+            color: var(--accent);
+        }
+
+        .pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .pillar-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .pillar-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-8px);
+            border-color: var(--accent);
+        }
+
+        .pillar-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--teal) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .pillar-card h3 {
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .pillar-card p {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            line-height: 1.6;
+        }
+
+        .pillar-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+            color: var(--accent);
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .pillar-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Tools Section */
+        .tools-section {
+            background: linear-gradient(180deg, var(--paper) 0%, var(--mist) 100%);
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .tool-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .tool-card:hover {
+            border-color: var(--teal);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .tool-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: var(--teal-light);
+            color: var(--teal);
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-radius: 20px;
+            margin-bottom: 1rem;
+        }
+
+        .tool-card h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .tool-card p {
+            font-size: 0.875rem;
+            color: var(--slate);
+            margin-bottom: 1.5rem;
+        }
+
+        .tool-action {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--teal);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .tool-action svg {
+            transition: transform 0.2s;
+        }
+
+        .tool-card:hover .tool-action svg {
+            transform: translateX(4px);
+        }
+
+        /* Faculty Hub Section */
+        .faculty-section {
+            background: var(--paper);
+        }
+
+        .faculty-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .faculty-form-panel {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+        }
+
+        .form-title {
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-subtitle {
+            color: var(--slate);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--mist);
+            border-radius: 8px;
+            font-family: var(--sans);
+            font-size: 0.9rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--teal);
+            box-shadow: 0 0 0 3px var(--teal-light);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-submit {
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .faculty-feed {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .feed-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .feed-title {
+            font-family: var(--serif);
+            font-size: 1.5rem;
+        }
+
+        .feed-filters {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: 1px solid var(--mist);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--ink);
+            color: var(--paper);
+            border-color: var(--ink);
+        }
+
+        .feed-item {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            border-left: 4px solid var(--teal);
+        }
+
+        .feed-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+
+        .feed-item-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .feed-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-light), var(--teal-light));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--ink);
+        }
+
+        .feed-author {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .feed-dept {
+            font-size: 0.75rem;
+            color: var(--slate);
+        }
+
+        .feed-tag {
+            padding: 0.25rem 0.75rem;
+            background: var(--accent-light);
+            color: var(--accent);
+            font-size: 0.7rem;
+            font-weight: 600;
+            border-radius: 12px;
+            text-transform: uppercase;
+        }
+
+        .feed-content {
+            font-size: 0.9rem;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .feed-actions {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .feed-action {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--slate);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .feed-action:hover {
+            color: var(--teal);
+        }
+
+        /* Resources Section */
+        .resources-section {
+            background: linear-gradient(135deg, var(--teal) 0%, var(--ink) 100%);
+            color: white;
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .resource-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .resource-card:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: scale(1.02);
+        }
+
+        .resource-type {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            color: var(--accent);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+
+        .resource-card h3 {
+            font-family: var(--serif);
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .resource-card p {
+            font-size: 0.875rem;
+            opacity: 0.7;
+            margin-bottom: 1rem;
+        }
+
+        .resource-link {
+            color: var(--accent);
+            font-size: 0.85rem;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .resource-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Stats Section */
+        .stats-bar {
+            background: var(--mist);
+            padding: 3rem 2rem;
+        }
+
+        .stats-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 1rem;
+        }
+
+        .stat-value {
+            font-family: var(--serif);
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--slate);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--ink);
+            color: var(--paper);
+            padding: 4rem 2rem 2rem;
+        }
+
+        .footer-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-brand h3 {
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-brand p {
+            font-size: 0.875rem;
+            opacity: 0.7;
+            max-width: 300px;
+        }
+
+        .footer-col h4 {
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1.25rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-col a {
+            color: var(--paper);
+            opacity: 0.7;
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: opacity 0.2s;
+        }
+
+        .footer-col a:hover {
+            opacity: 1;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            opacity: 0.6;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--paper);
+            border-radius: 16px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 2.5rem;
+            position: relative;
+            animation: modalIn 0.3s ease;
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: var(--mist);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            transition: background 0.2s;
+        }
+
+        .modal-close:hover {
+            background: var(--accent-light);
+        }
+
+        .modal h2 {
+            font-family: var(--serif);
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .modal p {
+            color: var(--slate);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Animations */
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+            .hero-visual {
+                display: none;
+            }
+            .pillars-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .tools-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .faculty-grid {
+                grid-template-columns: 1fr;
+            }
+            .resources-grid {
+                grid-template-columns: 1fr;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .nav-links {
+                display: none;
+            }
+            .hero-content {
+                padding: 4rem 1.5rem;
+            }
+            .pillars-grid,
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Utility */
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-inner">
+            <a href="#" class="nav-brand">
+                <div class="nav-brand-mark">4.0</div>
+                <div>
+                    <div class="nav-brand-text">Education 4.0</div>
+                    <div class="nav-brand-sub">PolyU Transformation Portal</div>
+                </div>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#pillars">Four Pillars</a></li>
+                <li><a href="#tools">Tools</a></li>
+                <li><a href="#faculty">Faculty Hub</a></li>
+                <li><a href="#resources">Resources</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <p class="hero-eyebrow">Hong Kong Polytechnic University</p>
+            <h1 class="hero-title">Navigating the <em>Future</em> of University Learning</h1>
+            <p class="hero-subtitle">An AI-empowered, student-centred transformation portal for faculty, researchers, and institutional leaders shaping the next era of higher education.</p>
+            <div class="hero-actions">
+                <a href="#pillars" class="btn btn-primary">Explore the Framework</a>
+                <a href="#faculty" class="btn btn-secondary">Contribute Ideas</a>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="hero-graphic">
+                <div class="edu-stages">
+                    <div class="stage">
+                        <span class="stage-number">0.0</span>
+                        <div class="stage-info">
+                            <h4>Medieval Foundations</h4>
+                            <p>Monastic & apprenticeship learning</p>
+                        </div>
+                    </div>
+                    <div class="stage">
+                        <span class="stage-number">1.0</span>
+                        <div class="stage-info">
+                            <h4>Industrial Era</h4>
+                            <p>Teacher-centric classrooms</p>
+                        </div>
+                    </div>
+                    <div class="stage">
+                        <span class="stage-number">2.0</span>
+                        <div class="stage-info">
+                            <h4>Mass Education</h4>
+                            <p>Standardized curricula & scale</p>
+                        </div>
+                    </div>
+                    <div class="stage">
+                        <span class="stage-number">3.0</span>
+                        <div class="stage-info">
+                            <h4>Digital Learning</h4>
+                            <p>E-learning & multimedia</p>
+                        </div>
+                    </div>
+                    <div class="stage stage-active">
+                        <span class="stage-number">4.0</span>
+                        <div class="stage-info">
+                            <h4>AI-Empowered</h4>
+                            <p>Personalized, ubiquitous learning</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-value">4</div>
+                <div class="stat-label">Transformation Pillars</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">89%</div>
+                <div class="stat-label">Students using AI tools</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">24/7</div>
+                <div class="stat-label">AI Learning Support</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">∞</div>
+                <div class="stat-label">Lifelong Learning Pathways</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Four Pillars Section -->
+    <section id="pillars" class="pillars-section">
+        <div class="section-container">
+            <div class="section-header">
+                <p class="section-eyebrow">The Framework</p>
+                <h2 class="section-title">Four Pillars of Education 4.0</h2>
+                <p class="section-desc">A comprehensive approach to transforming higher education through evidence-based principles and AI integration.</p>
+            </div>
+            <div class="pillars-grid">
+                <div class="pillar-card" onclick="openModal('learning-science')">
+                    <div class="pillar-icon">🧠</div>
+                    <h3>Learning Science Foundation</h3>
+                    <p>Evidence-based principles from cognitive psychology, neuroscience, and education research guiding all transformation efforts.</p>
+                    <a href="#" class="pillar-link">Explore principles →</a>
+                </div>
+                <div class="pillar-card" onclick="openModal('ai-integration')">
+                    <div class="pillar-icon">🤖</div>
+                    <h3>AI as Tool & Disruptor</h3>
+                    <p>Leveraging AI for personalization and efficiency while establishing guardrails against misuse and maintaining academic integrity.</p>
+                    <a href="#" class="pillar-link">View guidelines →</a>
+                </div>
+                <div class="pillar-card" onclick="openModal('assessment')">
+                    <div class="pillar-icon">📊</div>
+                    <h3>Assessment Reimagined</h3>
+                    <p>Shifting to authentic, higher-order assessments that value what students can do with knowledge, not what they can reproduce.</p>
+                    <a href="#" class="pillar-link">Assessment toolkit →</a>
+                </div>
+                <div class="pillar-card" onclick="openModal('lifelong')">
+                    <div class="pillar-icon">🔄</div>
+                    <h3>Lifelong & Intergenerational</h3>
+                    <p>Expanding learning beyond traditional boundaries to serve all ages through flexible, accessible pathways.</p>
+                    <a href="#" class="pillar-link">Learn more →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tools Section -->
+    <section id="tools" class="tools-section">
+        <div class="section-container">
+            <div class="section-header">
+                <p class="section-eyebrow">Practical Resources</p>
+                <h2 class="section-title">Tools for Transformation</h2>
+                <p class="section-desc">Ready-to-use resources, templates, and interactive tools to support your Education 4.0 journey.</p>
+            </div>
+            <div class="tools-grid">
+                <div class="tool-card" onclick="openModal('tool-audit')">
+                    <span class="tool-badge">Self-Assessment</span>
+                    <h3>Course AI-Readiness Audit</h3>
+                    <p>Evaluate your current course design against Education 4.0 principles and identify opportunities for enhancement.</p>
+                    <div class="tool-action">
+                        Start Audit
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="tool-card" onclick="openModal('tool-assessment')">
+                    <span class="tool-badge">Design Tool</span>
+                    <h3>Assessment Redesign Wizard</h3>
+                    <p>Transform traditional exams into authentic assessments with guided templates and examples.</p>
+                    <div class="tool-action">
+                        Launch Wizard
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="tool-card" onclick="openModal('tool-policy')">
+                    <span class="tool-badge">Template</span>
+                    <h3>AI Policy Generator</h3>
+                    <p>Create course-specific AI usage policies with configurable guidelines for different contexts.</p>
+                    <div class="tool-action">
+                        Generate Policy
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="tool-card" onclick="openModal('tool-rubric')">
+                    <span class="tool-badge">Framework</span>
+                    <h3>Higher-Order Skills Rubric</h3>
+                    <p>Ready-to-adapt rubrics for evaluating critical thinking, creativity, and ethical reasoning.</p>
+                    <div class="tool-action">
+                        View Rubrics
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="tool-card" onclick="openModal('tool-scenarios')">
+                    <span class="tool-badge">Case Studies</span>
+                    <h3>AI Integration Scenarios</h3>
+                    <p>Discipline-specific examples showing how to integrate AI meaningfully across different fields.</p>
+                    <div class="tool-action">
+                        Browse Cases
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="tool-card" onclick="openModal('tool-analytics')">
+                    <span class="tool-badge">Dashboard</span>
+                    <h3>Learning Analytics Portal</h3>
+                    <p>Access IHERD data hub insights and course-level analytics to inform pedagogical decisions.</p>
+                    <div class="tool-action">
+                        View Dashboard
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Faculty Hub Section -->
+    <section id="faculty" class="faculty-section">
+        <div class="section-container">
+            <div class="section-header">
+                <p class="section-eyebrow">Community</p>
+                <h2 class="section-title">Faculty Collaboration Hub</h2>
+                <p class="section-desc">Share innovations, raise questions, and connect with colleagues navigating Education 4.0.</p>
+            </div>
+            <div class="faculty-grid">
+                <div class="faculty-form-panel">
+                    <h3 class="form-title">Share Your Input</h3>
+                    <p class="form-subtitle">Contribute ideas, questions, or innovations to the community.</p>
+                    <form id="faculty-form">
+                        <div class="form-group">
+                            <label for="input-type">Type of Contribution</label>
+                            <select id="input-type" required>
+                                <option value="">Select type...</option>
+                                <option value="innovation">Teaching Innovation</option>
+                                <option value="question">Question / Challenge</option>
+                                <option value="resource">Resource Recommendation</option>
+                                <option value="feedback">Framework Feedback</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-title">Title</label>
+                            <input type="text" id="input-title" placeholder="Brief descriptive title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-content">Description</label>
+                            <textarea id="input-content" placeholder="Share details, context, or questions..." required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-dept">Department (optional)</label>
+                            <input type="text" id="input-dept" placeholder="e.g., Faculty of Engineering">
+                        </div>
+                        <button type="submit" class="btn btn-primary form-submit">Submit Contribution</button>
+                    </form>
+                </div>
+                <div class="faculty-feed">
+                    <div class="feed-header">
+                        <h3 class="feed-title">Recent Contributions</h3>
+                        <div class="feed-filters">
+                            <button class="filter-btn active">All</button>
+                            <button class="filter-btn">Innovations</button>
+                            <button class="filter-btn">Questions</button>
+                        </div>
+                    </div>
+                    <div class="feed-item">
+                        <div class="feed-item-header">
+                            <div class="feed-item-meta">
+                                <div class="feed-avatar">JC</div>
+                                <div>
+                                    <div class="feed-author">Prof. Jiannong Cao</div>
+                                    <div class="feed-dept">VP (Education)</div>
+                                </div>
+                            </div>
+                            <span class="feed-tag">Announcement</span>
+                        </div>
+                        <p class="feed-content">"By embracing AI and digital transformation, we are not replacing the human element of teaching—we are enhancing it." Our Education 4.0 initiative aims to give teachers and students new power to learn, create, and thrive.</p>
+                        <div class="feed-actions">
+                            <span class="feed-action">💬 12 comments</span>
+                            <span class="feed-action">⭐ 48 endorsements</span>
+                        </div>
+                    </div>
+                    <div class="feed-item">
+                        <div class="feed-item-header">
+                            <div class="feed-item-meta">
+                                <div class="feed-avatar">LW</div>
+                                <div>
+                                    <div class="feed-author">Dr. Li Wei</div>
+                                    <div class="feed-dept">School of Design</div>
+                                </div>
+                            </div>
+                            <span class="feed-tag">Innovation</span>
+                        </div>
+                        <p class="feed-content">Piloted an "AI Critique Partner" approach in my studio course—students submit design drafts to AI for initial feedback before peer review. Early results show 40% more substantive peer discussions since basic issues are resolved earlier.</p>
+                        <div class="feed-actions">
+                            <span class="feed-action">💬 8 comments</span>
+                            <span class="feed-action">⭐ 23 endorsements</span>
+                        </div>
+                    </div>
+                    <div class="feed-item">
+                        <div class="feed-item-header">
+                            <div class="feed-item-meta">
+                                <div class="feed-avatar">MC</div>
+                                <div>
+                                    <div class="feed-author">Prof. Maria Chen</div>
+                                    <div class="feed-dept">Dept. of Computing</div>
+                                </div>
+                            </div>
+                            <span class="feed-tag">Question</span>
+                        </div>
+                        <p class="feed-content">How are colleagues handling AI-assisted coding assignments? I'm torn between banning AI tools (unrealistic) and allowing unrestricted use (undermines learning). Looking for middle-ground approaches that preserve skill development.</p>
+                        <div class="feed-actions">
+                            <span class="feed-action">💬 31 comments</span>
+                            <span class="feed-action">⭐ 67 endorsements</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources Section -->
+    <section id="resources" class="resources-section">
+        <div class="section-container">
+            <div class="section-header">
+                <p class="section-eyebrow">Further Reading</p>
+                <h2 class="section-title">Key Resources & Documents</h2>
+                <p class="section-desc">Essential readings, institutional documents, and external references shaping our transformation.</p>
+            </div>
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <p class="resource-type">White Paper</p>
+                    <h3>Education 4.0: Navigating the Future</h3>
+                    <p>Comprehensive framework document outlining PolyU's vision, historical context, and implementation roadmap.</p>
+                    <a href="#" class="resource-link">Download PDF →</a>
+                </div>
+                <div class="resource-card">
+                    <p class="resource-type">Initiative Brief</p>
+                    <h3>IHERD Strategic Overview</h3>
+                    <p>Institute for Higher Education Research and Development—mission, current projects, and collaboration opportunities.</p>
+                    <a href="#" class="resource-link">View Brief →</a>
+                </div>
+                <div class="resource-card">
+                    <p class="resource-type">External Report</p>
+                    <h3>UNESCO: Future of Assessment in AI Age</h3>
+                    <p>Global perspectives on shifting assessment toward higher-order thinking, creativity, and ethical reasoning.</p>
+                    <a href="https://www.unesco.org/en/articles/whats-worth-measuring-future-assessment-ai-age" class="resource-link" target="_blank">Read Report →</a>
+                </div>
+                <div class="resource-card">
+                    <p class="resource-type">Research Article</p>
+                    <h3>Extended Education 4.0: Lifelong Learning in AI Times</h3>
+                    <p>MDPI publication on definitions, frameworks, and implementation of lifelong learning in the AI era.</p>
+                    <a href="https://www.mdpi.com/2076-3417/15/17/9352" class="resource-link" target="_blank">Access Article →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h3>Education 4.0 Portal</h3>
+                <p>"To learn and to apply, for the benefit of mankind." Our transformation journey is guided by evidence, driven by innovation, and centered on human flourishing.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Navigate</h4>
+                <ul>
+                    <li><a href="#pillars">Four Pillars</a></li>
+                    <li><a href="#tools">Tools</a></li>
+                    <li><a href="#faculty">Faculty Hub</a></li>
+                    <li><a href="#resources">Resources</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Institutional</h4>
+                <ul>
+                    <li><a href="#">IHERD Homepage</a></li>
+                    <li><a href="#">VP Education Office</a></li>
+                    <li><a href="#">PolyU Main Site</a></li>
+                    <li><a href="#">Academic Calendar</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Contact IHERD</a></li>
+                    <li><a href="#">Technical Help</a></li>
+                    <li><a href="#">Feedback</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 The Hong Kong Polytechnic University. All rights reserved.</p>
+            <p>Education 4.0 Transformation Initiative</p>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div id="modal-content"></div>
+        </div>
+    </div>
+
+    <script>
+        // Modal content library
+        const modalContent = {
+            'learning-science': {
+                title: 'Learning Science Foundation',
+                body: `
+                    <p>Evidence-based principles from decades of research in cognitive psychology, neuroscience, and education inform every aspect of Education 4.0.</p>
+                    <h4 style="margin: 1.5rem 0 0.75rem; font-size: 1rem;">Core Principles</h4>
+                    <ul style="margin-left: 1.25rem; color: var(--slate);">
+                        <li><strong>Active Engagement:</strong> Students learn best as participants, not passive listeners</li>
+                        <li><strong>Social Interaction:</strong> Learning is enhanced through collaboration and discussion</li>
+                        <li><strong>Meaningful Context:</strong> New knowledge connects to prior knowledge and real-world applications</li>
+                        <li><strong>Timely Feedback:</strong> Immediate, specific feedback accelerates skill acquisition</li>
+                        <li><strong>Spaced Practice:</strong> Distributed learning outperforms massed practice</li>
+                        <li><strong>Metacognition:</strong> Reflecting on one's own learning process deepens understanding</li>
+                    </ul>
+                    <h4 style="margin: 1.5rem 0 0.75rem; font-size: 1rem;">AI Alignment</h4>
+                    <p style="color: var(--slate);">AI tools should amplify these principles—providing adaptive feedback, enabling retrieval practice, and personalizing pathways—while preserving human mentorship, emotional support, and community building that technology cannot replace.</p>
+                `
+            },
+            'ai-integration': {
+                title: 'AI as Tool & Disruptor',
+                body: `
+                    <p>AI presents unprecedented opportunities and serious challenges to higher education. Our approach balances leveraging benefits while establishing guardrails.</p>
+                    <h4 style="margin: 1.5rem 0 0.75rem; font-size: 1rem;">AI as Tool (Opportunities)</h4>
+                    <ul style="margin-left: 1.25rem; color: var(--slate);">
+                        <li>Personalized learning pathways adapting to individual progress</li>
+                        <li>24/7 tutoring support and practice opportunities</li>
+                        <li>Automated formative feedback freeing teachers for mentoring</li>
+                        <li>Learning analytics identifying gaps and interventions</li>
+                    </ul>
+                    <h4 style="margin: 1.5rem 0 0.75rem; font-size: 1rem;">AI as Disruptor (Challenges)</h4>
+                    <ul style="margin-left: 1.25rem; color: var(--slate);">
+                        <li><strong>Academic Integrity:</strong> 89% of students have used AI for coursework</li>
+                        <li><strong>Credential Validity:</strong> Traditional assessments may no longer prove competence</li>
+                        <li><strong>Skill Development:</strong> Over-reliance may atrophy critical thinking</li>
+                        <li><strong>Equity Concerns:</strong> Differential access to AI tools and training</li>
+                    </ul>
+                    <h4 style="margin: 1.5rem 0 0.75rem; font-size: 1rem;">Our Framework</h4>
+                    <p style="color: var(--slate);">Integration + Guardrails: Embed AI meaningfully in learning while establishing clear policies, honor codes, and assessment designs that ensure genuine learning occurs.</p>
+                `
+            },
+            'assessment': {
+                title: 'Assessment Reimagined',
+                body: `
+                    <p>When AI can produce standard learning outputs, we must shift to assessments measuring what students can <em>do</em> with knowledge, not what they can reproduce.</p>
+                    <h4 style="margin: 1.5rem 0 0.75rem; font-size: 1rem;">Design Principles</h4>
+                    <ul style="margin-left: 1.25rem; color: var(--slate);">
+                        <li><strong>Authenticity:</strong> Tasks mirroring real-world challenges and contexts</li>
+                        <li><strong>Higher-Order Focus:</strong> Evaluate critical thinking, creativity, ethical reasoning</li>
+                        <li><strong>Process Visibility:</strong> Assess thinking journey, not just polished products</li>
+                        <li><strong>AI-Inclusive:</strong> Incorporate AI as subject of evaluation itself</li>
+                    </ul>
+                    <h4 style="margin: 1.5rem 0 0.75rem; font-size: 1rem;">Assessment Strategies</h4>
+                    <ul style="margin-left: 1.25rem; color: var(--slate);">
+                        <li>Oral examinations and viva defenses</li>
+                        <li>Portfolio-based assessment with reflection</li>
+                        <li>Project-based assessments with documented iterations</li>
+                        <li>AI critique tasks (evaluate and improve AI outputs)</li>
+                        <li>Competency demonstrations and capstones</li>
+                    </ul>
+                `
+            },
+            'lifelong': {
+                title: 'Lifelong & Intergenerational Learning',
+                body: `
+                    <p>Education 4.0 expands who universities serve and when learning occurs, transforming institutions into hubs for continuous development across all ages.</p>
+                    <h4 style="margin: 1.5rem 0 0.75rem; font-size: 1rem;">Lifelong Learning (LLL)</h4>
+                    <p style="color: var(--slate);">Acquisition of new knowledge, skills, and competencies throughout life, enabling individuals to adapt to changes and challenges in an ever-changing world.</p>
+                    <ul style="margin-left: 1.25rem; color: var(--slate); margin-top: 0.75rem;">
+                        <li>Flexible pathways: part-time, online, micro-credentials</li>
+                        <li>Alumni return programs for skill updates</li>
+                        <li>AI-personalized learning for diverse adult contexts</li>
+                    </ul>
+                    <h4 style="margin: 1.5rem 0 0.75rem; font-size: 1rem;">Intergenerational Learning</h4>
+                    <p style="color: var(--slate);">A learning partnership based on reciprocity and mutuality involving people of different ages working together to gain skills, values, and knowledge.</p>
+                    <ul style="margin-left: 1.25rem; color: var(--slate); margin-top: 0.75rem;">
+                        <li>Mixed-age collaborative projects</li>
+                        <li>Retiree mentorship and audit programs</li>
+                        <li>Service-learning bridging generations</li>
+                    </ul>
+                `
+            },
+            'tool-audit': {
+                title: 'Course AI-Readiness Audit',
+                body: `
+                    <p>This self-assessment tool helps you evaluate your course against Education 4.0 principles.</p>
+                    <div style="background: var(--mist); padding: 1.5rem; border-radius: 8px; margin-top: 1rem;">
+                        <h4 style="margin-bottom: 1rem; font-size: 0.9rem;">Quick Assessment Categories</h4>
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; margin-bottom: 0.5rem;">
+                                <input type="checkbox"> Active learning components present
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; margin-bottom: 0.5rem;">
+                                <input type="checkbox"> Clear AI usage policy defined
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; margin-bottom: 0.5rem;">
+                                <input type="checkbox"> Assessments include authentic tasks
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; margin-bottom: 0.5rem;">
+                                <input type="checkbox"> Higher-order skills explicitly evaluated
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; margin-bottom: 0.5rem;">
+                                <input type="checkbox"> Feedback mechanisms are timely
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem;">
+                                <input type="checkbox"> Student metacognition encouraged
+                            </label>
+                        </div>
+                        <p style="font-size: 0.8rem; color: var(--slate);">Full audit tool with scoring and recommendations coming soon.</p>
+                    </div>
+                `
+            },
+            'tool-assessment': {
+                title: 'Assessment Redesign Wizard',
+                body: `
+                    <p>Transform traditional assessments into AI-resilient, authentic evaluations.</p>
+                    <div style="background: var(--mist); padding: 1.5rem; border-radius: 8px; margin-top: 1rem;">
+                        <h4 style="margin-bottom: 1rem; font-size: 0.9rem;">Transform This Assessment Type:</h4>
+                        <select style="width: 100%; padding: 0.75rem; border: 1px solid var(--slate); border-radius: 6px; margin-bottom: 1rem;">
+                            <option>Select current format...</option>
+                            <option>Traditional essay</option>
+                            <option>Multiple choice exam</option>
+                            <option>Problem set</option>
+                            <option>Lab report</option>
+                            <option>Case study analysis</option>
+                        </select>
+                        <h4 style="margin-bottom: 0.75rem; font-size: 0.9rem;">Suggested Alternatives:</h4>
+                        <ul style="font-size: 0.85rem; color: var(--slate); margin-left: 1.25rem;">
+                            <li>Oral defense of written work</li>
+                            <li>Process portfolio with reflection</li>
+                            <li>AI critique + improvement task</li>
+                            <li>Real-world application project</li>
+                        </ul>
+                        <p style="font-size: 0.8rem; color: var(--slate); margin-top: 1rem;">Full wizard with templates and rubrics in development.</p>
+                    </div>
+                `
+            },
+            'tool-policy': {
+                title: 'AI Policy Generator',
+                body: `
+                    <p>Generate a customized AI usage policy for your course syllabus.</p>
+                    <div style="background: var(--mist); padding: 1.5rem; border-radius: 8px; margin-top: 1rem;">
+                        <h4 style="margin-bottom: 1rem; font-size: 0.9rem;">Policy Stance:</h4>
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-size: 0.9rem;">
+                                <input type="radio" name="policy" checked> Structured Integration (recommended)
+                            </label>
+                            <label style="display: block; margin-bottom: 0.5rem; font-size: 0.9rem;">
+                                <input type="radio" name="policy"> Permitted with Disclosure
+                            </label>
+                            <label style="display: block; margin-bottom: 0.5rem; font-size: 0.9rem;">
+                                <input type="radio" name="policy"> Limited to Specific Tasks
+                            </label>
+                            <label style="display: block; font-size: 0.9rem;">
+                                <input type="radio" name="policy"> Not Permitted
+                            </label>
+                        </div>
+                        <p style="font-size: 0.8rem; color: var(--slate);">Policy generator with discipline-specific language coming soon.</p>
+                    </div>
+                `
+            },
+            'tool-rubric': {
+                title: 'Higher-Order Skills Rubrics',
+                body: `
+                    <p>Ready-to-adapt rubrics for evaluating the skills that matter in the AI age.</p>
+                    <div style="margin-top: 1.5rem;">
+                        <div style="background: var(--teal-light); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                            <h4 style="font-size: 0.9rem; color: var(--teal);">Critical Thinking Rubric</h4>
+                            <p style="font-size: 0.8rem; color: var(--slate);">Evaluates analysis, evaluation, and synthesis of information</p>
+                        </div>
+                        <div style="background: var(--accent-light); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                            <h4 style="font-size: 0.9rem; color: var(--accent);">Creative Problem-Solving Rubric</h4>
+                            <p style="font-size: 0.8rem; color: var(--slate);">Assesses originality, flexibility, and solution quality</p>
+                        </div>
+                        <div style="background: var(--mist); padding: 1rem; border-radius: 8px;">
+                            <h4 style="font-size: 0.9rem;">Ethical Reasoning Rubric</h4>
+                            <p style="font-size: 0.8rem; color: var(--slate);">Measures stakeholder consideration, values analysis, and justification</p>
+                        </div>
+                    </div>
+                `
+            },
+            'tool-scenarios': {
+                title: 'AI Integration Scenarios',
+                body: `
+                    <p>Discipline-specific case studies showing meaningful AI integration.</p>
+                    <div style="margin-top: 1.5rem;">
+                        <div style="border-left: 3px solid var(--teal); padding-left: 1rem; margin-bottom: 1.5rem;">
+                            <h4 style="font-size: 0.95rem;">Engineering: AI as Design Validator</h4>
+                            <p style="font-size: 0.85rem; color: var(--slate);">Students design solutions, then use AI to identify failure modes—must defend against AI critiques.</p>
+                        </div>
+                        <div style="border-left: 3px solid var(--accent); padding-left: 1rem; margin-bottom: 1.5rem;">
+                            <h4 style="font-size: 0.95rem;">Business: AI-Augmented Case Analysis</h4>
+                            <p style="font-size: 0.85rem; color: var(--slate);">Students compare their analysis with AI-generated analysis, identifying blind spots in both.</p>
+                        </div>
+                        <div style="border-left: 3px solid var(--gold); padding-left: 1rem;">
+                            <h4 style="font-size: 0.95rem;">Design: AI Critique Partner</h4>
+                            <p style="font-size: 0.85rem; color: var(--slate);">AI provides initial feedback on drafts; students must evaluate, filter, and respond to feedback.</p>
+                        </div>
+                    </div>
+                `
+            },
+            'tool-analytics': {
+                title: 'Learning Analytics Portal',
+                body: `
+                    <p>Access insights from the Digital Education Data Hub to inform pedagogical decisions.</p>
+                    <div style="background: var(--mist); padding: 1.5rem; border-radius: 8px; margin-top: 1rem; text-align: center;">
+                        <p style="font-size: 2rem; margin-bottom: 0.5rem;">📊</p>
+                        <h4 style="margin-bottom: 0.5rem;">Dashboard Access</h4>
+                        <p style="font-size: 0.85rem; color: var(--slate); margin-bottom: 1rem;">Analytics portal requires PolyU authentication</p>
+                        <button class="btn btn-secondary" style="font-size: 0.85rem;">Login to IHERD Dashboard</button>
+                    </div>
+                    <p style="font-size: 0.8rem; color: var(--slate); margin-top: 1rem;">Available metrics: engagement patterns, learning outcome correlations, intervention effectiveness, course comparison benchmarks.</p>
+                `
+            }
+        };
+
+        // Modal functions
+        function openModal(contentId) {
+            const overlay = document.getElementById('modal-overlay');
+            const content = document.getElementById('modal-content');
+            const data = modalContent[contentId];
+            
+            if (data) {
+                content.innerHTML = `<h2>${data.title}</h2>${data.body}`;
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal(event) {
+            if (!event || event.target === event.currentTarget) {
+                document.getElementById('modal-overlay').classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Form submission
+        document.getElementById('faculty-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your contribution! In the full implementation, this would be saved to the community feed.');
+            this.reset();
+        });
+
+        // Filter buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Escape key closes modal
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
